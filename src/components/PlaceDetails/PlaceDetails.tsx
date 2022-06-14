@@ -15,15 +15,17 @@ import Rating from "@material-ui/lab/Rating";
 
 import useStyles from "./styles.js";
 
-const PlaceDetails: React.FC<{ place: any; selected: any; refProp: any }> = ({
-  place,
-  selected,
-  refProp,
-}) => {
-  if (selected)
-    refProp?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+const PlaceDetails: React.FC<{
+  place: any;
+  selected: boolean;
+  refProp: any;
+}> = ({ place, selected, refProp }) => {
   const classes = useStyles();
 
+  if (selected) {
+    console.log({ refProp });
+    refProp?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
   return (
     <Card elevation={6}>
       <CardMedia
@@ -57,12 +59,13 @@ const PlaceDetails: React.FC<{ place: any; selected: any; refProp: any }> = ({
             {place.ranking}
           </Typography>
         </Box>
-        {place?.awards?.map((award: any) => (
+        {place?.awards?.map((award: any, idx: number) => (
           <Box
             display="flex"
             justifyContent="space-between"
             my={1}
             alignItems="center"
+            key={idx}
           >
             <img src={award.images.small} alt={""} />
             <Typography variant="subtitle2" color="textSecondary">
@@ -81,7 +84,7 @@ const PlaceDetails: React.FC<{ place: any; selected: any; refProp: any }> = ({
             />
           );
         })}
-        {place.address && (
+        {place?.address && (
           <Typography
             gutterBottom
             variant="body2"
@@ -92,7 +95,7 @@ const PlaceDetails: React.FC<{ place: any; selected: any; refProp: any }> = ({
             {place.address}
           </Typography>
         )}
-        {place.phone && (
+        {place?.phone && (
           <Typography
             variant="body2"
             color="textSecondary"
